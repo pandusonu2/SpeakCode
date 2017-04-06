@@ -1,0 +1,32 @@
+﻿<Page
+    x:Class="SpeakCode.LoginPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SpeakCode"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Pivot Title="Speak Code">
+        <PivotItem Header="Login">
+            <Grid Background="Pink">
+                <StackPanel>
+                    <TextBox x:Name="uname" Height="60" Header="Username"/>
+                    <PasswordBox x:Name="pass" Height="60" Header="Password"/>
+                    <Button Content="Login" Click="LoginFunc"/>
+                    <Button Content="Free Play" Click="OpenFreePlay"/>
+                </StackPanel>
+            </Grid>
+        </PivotItem>
+        <PivotItem Header="Sign Up">
+            <Grid Background="Plum">
+                <StackPanel>
+                    <TextBox x:Name="uname2" Height="60" Header="Username"/>
+                    <PasswordBox x:Name="pass2" Height="60" Header="Password"/>
+                    <PasswordBox x:Name="pass3" Height="60" Header="Retype Password"/>
+                    <Button Content="Sign Up" Click="SignUpFunc"/>
+                </StackPanel>
+            </Grid>
+        </PivotItem>
+    </Pivot>
+</Page>

@@ -1,0 +1,35 @@
+﻿<UserControl
+    x:Class="SpeakCode.func"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SpeakCode"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Height="Auto"
+    Width="Auto">
+
+    <ScrollViewer>
+        <Grid CornerRadius="10" Background="AntiqueWhite">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
+                <TextBlock Text="func "/>
+                <ComboBox PlaceholderText="void">
+                    <x:String>void</x:String>
+                    <x:String>Integer</x:String>
+                    <x:String>String</x:String>
+                </ComboBox>
+                <TextBox PlaceholderText="fName"/>
+                <TextBlock Text=" ("/>
+                <StackPanel x:Name="args" Orientation="Horizontal"/>
+                <TextBlock Text=")"/>
+                <Button Content="Integer" Click="AddElement"/>
+                <Button Content="String" Click="AddElement"/>
+            </StackPanel>
+            <local:Ring Background="Aquamarine" Grid.Row="1" Grid.Column="0"/>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

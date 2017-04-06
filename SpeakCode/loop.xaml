@@ -1,0 +1,36 @@
+﻿<UserControl
+    x:Class="SpeakCode.loop"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SpeakCode"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Height="Auto" Width="Auto">
+
+    <ScrollViewer>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <ScrollViewer Grid.Row="0">
+                <Grid Background="RosyBrown" CornerRadius="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock x:Name="lop" Text="loop"/>
+                        <TextBox x:Name="vari" PlaceholderText="IterVar"/>
+                        <TextBox x:Name="start" PlaceholderText="start"/>
+                        <TextBox x:Name="condition"  PlaceholderText="condition"/>
+                        <TextBox x:Name="incre" PlaceholderText="increment"/>
+                    </StackPanel>
+                    <local:Ring x:Name="body" Background="Black" Grid.Row="1" Grid.Column="0"/>
+                </Grid>
+            </ScrollViewer>
+            <local:Ring x:Name="below" Grid.Row="1"/>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

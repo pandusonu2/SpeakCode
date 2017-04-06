@@ -1,0 +1,42 @@
+﻿<Page
+    x:Class="SpeakCode.UserPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SpeakCode"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Grid x:Name="Divider">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <ScrollViewer VerticalScrollBarVisibility="Visible" Grid.Row="0" Grid.Column="0" Grid.RowSpan="2">
+            <!--ListView x:Name="Question">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Button Click="OpenQues">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding id}"/>
+                                <TextBlock Text="{Binding pname}"/>
+                            </StackPanel>
+                        </Button>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </-->
+            <Grid x:Name="Question" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+            </Grid>
+        </ScrollViewer>
+
+        <TextBlock x:Name="Progress" Grid.Row="0" Grid.Column="1" Text="0/10" FontSize="25"/>
+        <TextBlock x:Name="Details" Grid.Row="2" Grid.Column="1" Text="User" FontSize="20"/>
+    </Grid>
+</Page>
