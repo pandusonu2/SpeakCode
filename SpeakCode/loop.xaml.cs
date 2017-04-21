@@ -27,7 +27,8 @@ namespace SpeakCode
         public string genString()
         {
             string ret = "";
-            ret += "for (int " + vari.Text + " = " + start.Text + "; " + condition.Text + "; " + vari.Text + " += " + incre.Text + ") {\n";
+            ret += "for (int " + vari.Text + " = " + start.Text + "; ";
+            ret += condition.Text + "; " + vari.Text + " += " + incre.Text + ") \n{\n";
             ret += body.genString();
             ret += "}\n";
             ret += below.genString();

@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Windows.Web.Http;
 using Windows.Web.Http.Headers;
 using Windows.UI.Popups;
+using Newtonsoft.Json;
 
 namespace SpeakCode
 {
@@ -27,6 +28,7 @@ namespace SpeakCode
             Question ret = (Question)serial.ReadObject(ms);
             return ret;
         }
+
         public async static Task<List<Question>> ques()
         {
             var http = new System.Net.Http.HttpClient();
@@ -38,6 +40,7 @@ namespace SpeakCode
             List<Question> ret = (List<Question>)serial.ReadObject(ms);
             return ret;
         }
+
         public async static Task<List<Language>> langlist()
         {
             var http = new System.Net.Http.HttpClient();
@@ -49,31 +52,58 @@ namespace SpeakCode
             List<Language> ret = (List<Language>)serial.ReadObject(ms);
             return ret;
         }
-        public async static Task<string> postReq(string pcode, string submission)
+
+        public async static Task<Status> getStatus(string id)
+        {
+            var http = new System.Net.Http.HttpClient();
+            var response = await http.GetAsync("http://api.pandusonu.com/get_submission/" + id);
+            var result = await response.Content.ReadAsStringAsync();
+            var serial = new DataContractJsonSerializer(typeof(Status));
+
+            MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(result));
+            Status ret = (Status)serial.ReadObject(ms);
+            return ret;
+        }
+
+        public async static Task<string> postReq(string pcode1, string submission)
         {
             Uri reqUti = new Uri("http://api.pandusonu.com/submit");
-            dynamic dynamicJson = new ExpandoObject();
-            dynamicJson.pcode = pcode;
-            dynamicJson.user_source_code = submission;
-            string json = "{\"pcode\":\"" + pcode + "\",\"user_source_code\":\"";
-            foreach(char c in submission.ToCharArray())
+            Submission submit = new Submission
             {
-                if (c == '"')
-                    json += "\\\"";
-                else if (c == '\\')
-                    json += "\\";
-                else if (c == '\n')
-                    continue;
-                else json += c;
-            }    
-            json += "\"}";
+                pcode = pcode1,
+                user_source_code = submission
+            };
             var http = new System.Net.Http.HttpClient();
-            System.Net.Http.HttpResponseMessage respon = await http.PostAsync(reqUti, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
+            System.Net.Http.HttpResponseMessage respon = await http.PostAsync(reqUti, new StringContent(JsonConvert.SerializeObject(submit), Encoding.UTF8, "application/json"));
             string responseJsonText = await respon.Content.ReadAsStringAsync();
-            await new MessageDialog(responseJsonText).ShowAsync();
-            return responseJsonText;
+            Status st = (Status)(new DataContractJsonSerializer(typeof(Status))).ReadObject(new MemoryStream(Encoding.UTF8.GetBytes(responseJsonText)));
+            while (st.status_code.Equals("PE"))
+                st = await getStatus(st.id);
+            string result = "Result";
+            if (st.status_code.Equals("AC"))
+                result = "That is the correct solution!";
+            else if (st.status_code.Equals("WA"))
+                result = "That is not the correct answer. Please check your logic.";
+            else
+            {
+                if (st.error_desc != null)
+                    result = "You got the following error:" + (string)st.error_desc + "\n\nKindly generate the code to check the error. Report if the problem is with parser";
+                else result = "There seems to be some error. Kindly generate the code to check the error. Report if the problem persists.";
+            }
+            await new MessageDialog(result).ShowAsync();
+            return st.status_code;
         }
     }
+
+    [DataContract]
+    public class Submission
+    {
+        [DataMember]
+        public string pcode { get; set; }
+        [DataMember]
+        public string user_source_code { get; set; }
+    }
+
     [DataContract]
     public class Status
     {
@@ -84,6 +114,7 @@ namespace SpeakCode
         [DataMember]
         public string error_desc { get; set; }  
     }
+
     [DataContract]
     public class Language
     {

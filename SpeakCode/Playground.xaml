@@ -35,7 +35,9 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <TextBlock x:Name="code" Grid.Row="0" Grid.Column="0"/>
+            <Grid Background="Black" Grid.Row="0" Grid.Column="0">
+                <TextBlock x:Name="code" RequestedTheme="Dark" FontFamily="RomanC"/>
+            </Grid>
             <Grid Grid.Row="0" Grid.Column="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -59,17 +61,34 @@
                 <TextBlock Text="WIDGETS" FontStyle="Italic" TextAlignment="Center" FontSize="40" 
                            FontFamily="Script MT Bold"/>
                 <ComboBox x:Name="langs" SelectionChanged="langs_SelectionChanged"/>
-                <TextBlock x:Name="ifelse" Text="if else" CanDrag="True" DragStarting="dragStart"/>
-                <TextBlock x:Name="forx" Text="loop" CanDrag="True" DragStarting="dragStart"/>
-                <!--TextBlock Text="function" CanDrag="True" DragStarting="dragStart"/-->
-                <TextBlock x:Name="print" Text="print" CanDrag="True" DragStarting="dragStart"/>
-                <TextBlock x:Name="input" Text="input" CanDrag="True" DragStarting="dragStart"/>
-                <TextBlock x:Name="breakx" Text="break" CanDrag="True" DragStarting="dragStart"/>
-                <TextBlock x:Name="continuex" Text="continue" CanDrag="True" DragStarting="dragStart"/>
-                <TextBlock x:Name="integerx" Text="integer" CanDrag="True" DragStarting="dragStart"/>
-                <TextBlock x:Name="stringx" Text="string" CanDrag="True" DragStarting="dragStart"/>
-                <TextBlock Text="equation" CanDrag="True" DragStarting="dragStart"/>
-                <!--TextBlock Text="return" CanDrag="True" DragStarting="dragStart"/-->
+                <RelativePanel>
+                    <TextBlock x:Name="integerx" Text="integer" CanDrag="True" DragStarting="dragStart"
+                               Tapped="TextTapped" Padding="8" ToolTipService.ToolTip="integer"/>
+                    <TextBlock x:Name="stringx" Text="string" CanDrag="True" DragStarting="dragStart"
+                               Tapped="TextTapped" Padding="8" RelativePanel.RightOf="integerx" ToolTipService.ToolTip="string"/>
+                    <TextBlock Text="equation" CanDrag="True" DragStarting="dragStart"
+                               Tapped="TextTapped" Padding="8" RelativePanel.RightOf="stringx" ToolTipService.ToolTip="equation"/>
+                </RelativePanel>
+                <RelativePanel>
+                    <TextBlock x:Name="ifelse" Text="if else" CanDrag="True" DragStarting="dragStart" 
+                               Tapped="TextTapped" Padding="8" ToolTipService.ToolTip="if else"/>
+                    <TextBlock x:Name="forx" Text="loop" CanDrag="True" DragStarting="dragStart" 
+                               Tapped="TextTapped" Padding="8" RelativePanel.RightOf="ifelse" ToolTipService.ToolTip="looper"/>
+                    <!--TextBlock Text="function" CanDrag="True" DragStarting="dragStart"/-->
+                </RelativePanel>
+                <RelativePanel>
+                    <TextBlock x:Name="print" Text="print" CanDrag="True" DragStarting="dragStart" 
+                               Tapped="TextTapped" Padding="8" ToolTipService.ToolTip="print"/>
+                    <TextBlock x:Name="input" Text="input" CanDrag="True" DragStarting="dragStart" 
+                               Tapped="TextTapped" Padding="8" RelativePanel.RightOf="print" ToolTipService.ToolTip="input"/>
+                </RelativePanel>
+                <RelativePanel>
+                    <TextBlock x:Name="breakx" Text="break" CanDrag="True" DragStarting="dragStart" 
+                               Tapped="TextTapped" Padding="8" ToolTipService.ToolTip="break"/>
+                    <TextBlock x:Name="continuex" Text="continue" CanDrag="True" DragStarting="dragStart" 
+                               Tapped="TextTapped" Padding="8" RelativePanel.RightOf="breakx" ToolTipService.ToolTip="continue"/>
+                    <!--TextBlock Text="return" CanDrag="True" DragStarting="dragStart"/-->
+                </RelativePanel>
             </StackPanel>
         </Grid>
     </Grid>

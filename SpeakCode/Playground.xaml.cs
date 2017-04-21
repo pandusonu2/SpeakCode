@@ -35,6 +35,7 @@ namespace SpeakCode
                     langs.SelectedIndex = i - 1;
             }
         }
+
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             string fromButton = (string)e.Parameter;
@@ -66,10 +67,40 @@ namespace SpeakCode
 
         private void genCode(object sender, RoutedEventArgs e)
         {
-            code.Text = "#include <iostream>\nint main(){\n" + StartGround.genString() + "return 0;\n}";
+            string codex = "#include <iostream>\n#include <string>\n\nusing namespace std;\n\n";
+            codex += "int main()\n{\n" + StartGround.genString() + "return 0;\n}\n";
+            string finalcode = "";
+            string indent = "";
+            for(int i=0; i<codex.Length; i++)
+            {
+                if (codex.ElementAt(i) == '{')
+                {
+                    finalcode += '{';
+                    if (codex.ElementAt(i - 1) == '\n' && codex.ElementAt(i + 1) == '\n')
+                        indent += '\t';
+                }
+                else if(codex.ElementAt(i) == '}')
+                {
+                    if (codex.ElementAt(i - 1) == '\n' && codex.ElementAt(i + 1) == '\n')
+                    {
+                        indent = indent.Substring(1);
+                        finalcode = finalcode.Substring(0, finalcode.Length - 1);
+                    }
+                    finalcode += '}';
+                }
+                else
+                {
+                    finalcode += codex.ElementAt(i);
+                    if (codex.ElementAt(i) == '\n')
+                        finalcode += indent;
+                }
+            }
+            code.Text = finalcode;
         }
+
         private async void submit(object sender, RoutedEventArgs e)
         {
+            genCode(null, null);
             string codex = code.Text;
             string x = await JsonReq.postReq(App.quesList.ElementAt(quesList.SelectedIndex).pcode, codex);
         }
@@ -97,6 +128,16 @@ namespace SpeakCode
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(Playground), "()");
+        }
+
+        private async void TextTapped(object sender, TappedRoutedEventArgs e)
+        {
+            TextBlock txt = sender as TextBlock;
+            MediaElement me = new MediaElement();
+            var synth = new Windows.Media.SpeechSynthesis.SpeechSynthesizer();
+            Windows.Media.SpeechSynthesis.SpeechSynthesisStream stream = await synth.SynthesizeTextToStreamAsync(txt.Text);
+            me.SetSource(stream, stream.ContentType);
+            me.Play();
         }
     }
 }
