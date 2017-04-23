@@ -35,8 +35,32 @@
                 </Grid.ColumnDefinitions>
             </Grid>
         </ScrollViewer>
-
-        <TextBlock x:Name="Progress" Grid.Row="0" Grid.Column="1" Text="0/10" FontSize="25"/>
+        <Grid Grid.Row="0" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Progress" 
+                       Style="{StaticResource HeaderTextBlockStyle}" TextAlignment="Center"/>
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="Accepted"
+                       Style="{StaticResource SubheaderTextBlockStyle}" TextAlignment="Right"/>
+            <TextBlock x:Name="acc" Grid.Row="1" Grid.Column="1" Text="ACC"
+                       Style="{StaticResource SubheaderTextBlockStyle}" TextAlignment="Center"/>
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="Submitted"
+                       Style="{StaticResource SubheaderTextBlockStyle}" TextAlignment="Right"/>
+            <TextBlock x:Name="sol" Grid.Row="2" Grid.Column="1" Text="sol"
+                       Style="{StaticResource SubheaderTextBlockStyle}" TextAlignment="Center"/>
+            <TextBlock Grid.Row="3" Grid.Column="0" Text="Accuracy"
+                       Style="{StaticResource SubheaderTextBlockStyle}" TextAlignment="Right"/>
+            <TextBlock x:Name="percent" Grid.Row="3" Grid.Column="1" Text="accuract"
+                       Style="{StaticResource SubheaderTextBlockStyle}" TextAlignment="Center"/>
+        </Grid>
         <TextBlock x:Name="Details" Grid.Row="2" Grid.Column="1" Text="User" FontSize="20"/>
     </Grid>
 </Page>

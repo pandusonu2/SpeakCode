@@ -1,8 +1,10 @@
-﻿using System;
+﻿using SpeakCode.SqlAccess;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Devices.Input;
 using Windows.Foundation;
@@ -27,11 +29,37 @@ namespace SpeakCode
         public Playground()
         {
             this.InitializeComponent();
+            setLangs();
+            if (App.currUser == null)
+                addLangs.IsEnabled = false;
+        }
+
+        public async void setLangs()
+        {
             int i = 0;
-            foreach(Language l in App.langList)
+            if (App.currUser != null)
+            {
+                IList<UserLang> uls = await (new Service1Client()).GetLangsAsync(App.currUser.user);
+                foreach (UserLang ul in uls)
+                {
+                    App.langList.Add(new Language()
+                    {
+                        lang_code = ul.lang,
+                        @int = ul.integer,
+                        @string = ul.strings,
+                        if_else = ul.ifelse,
+                        @for = ul.looper,
+                        print = ul.printer,
+                        read = ul.input,
+                        @break = ul.breaker,
+                        @continue = ul.continuex
+                    });
+                }
+            }
+            foreach (Language l in App.langList)
             {
                 langs.Items.Add(l.lang_code);
-                if(App.current.id == ++i)
+                if (App.current.id == ++i)
                     langs.SelectedIndex = i - 1;
             }
         }
@@ -47,6 +75,7 @@ namespace SpeakCode
                 quesList.Items.Add(q.id + "." + q.pname + " (" + q.pcode + ")");
                 if (qcode.Equals(q.pcode))
                 {
+                    quesList.SelectedIndex = q.id - 1;
                     Ques.Text = q.statement;
                 }
             }
@@ -63,6 +92,12 @@ namespace SpeakCode
             TextBlock block = sender as TextBlock;
             args.Data.SetText(block.Text);
             args.Data.RequestedOperation = DataPackageOperation.Copy;
+        }
+
+        private async void showAddLang(object sender, RoutedEventArgs e)
+        {
+            AddLang adder = new AddLang();
+            await adder.ShowAsync();
         }
 
         private void genCode(object sender, RoutedEventArgs e)
@@ -103,6 +138,23 @@ namespace SpeakCode
             genCode(null, null);
             string codex = code.Text;
             string x = await JsonReq.postReq(App.quesList.ElementAt(quesList.SelectedIndex).pcode, codex);
+            if (App.currUser != null)
+            {
+                if (x.Equals("AC"))
+                {
+                    App.currUser.sol++;
+                    App.currUser.acc++;
+                    StringBuilder xyz = new StringBuilder(App.currUser.ques);
+                    xyz[quesList.SelectedIndex] = '1';
+                    App.currUser.ques = xyz.ToString();
+                }
+                else
+                {
+                    App.currUser.sol++;
+                }
+                Service1Client client = new Service1Client();
+                bool x1 = await client.UpdProgressAsync(App.currUser);
+            }
         }
 
         private void quesList_SelectionChanged(object sender, SelectionChangedEventArgs e)

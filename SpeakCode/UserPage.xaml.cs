@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+﻿using System.Collections.Generic;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
+using SpeakCode.SqlAccess;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
+using Windows.UI;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -25,6 +17,12 @@ namespace SpeakCode
         public UserPage()
         {
             this.InitializeComponent();
+            acc.Text = App.currUser.acc.ToString();
+            sol.Text = App.currUser.sol.ToString();
+            Details.Text = App.currUser.user;
+            if (App.currUser.sol == 0)
+                percent.Text = "0";
+            else percent.Text = (App.currUser.acc * 100.0 / App.currUser.sol).ToString();
             populateQuestions();
         }
         public void populateQuestions()
@@ -36,6 +34,8 @@ namespace SpeakCode
                 Button ques = new Button();
                 ques.SetValue(Button.ContentProperty, q.id + "." + q.pname + " (" + q.pcode + ")");
                 ques.Click += OpenQues;
+                if ((App.currUser.ques.ToCharArray())[i] == '1')
+                    ques.Background = new SolidColorBrush(Colors.Green);
 
                 RowDefinition defineRow = new RowDefinition();
                 defineRow.SetValue(RowDefinition.HeightProperty, (new GridLength(1, GridUnitType.Auto)));

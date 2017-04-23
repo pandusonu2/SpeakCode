@@ -60,7 +60,16 @@
             <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="2">
                 <TextBlock Text="WIDGETS" FontStyle="Italic" TextAlignment="Center" FontSize="40" 
                            FontFamily="Script MT Bold"/>
-                <ComboBox x:Name="langs" SelectionChanged="langs_SelectionChanged"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <ComboBox x:Name="langs" Grid.Column="0" SelectionChanged="langs_SelectionChanged"/>
+                    <TextBlock Text="  " Grid.Column="1"/>
+                    <Button x:Name="addLangs" Grid.Column="2"  Content="Add Language" Click="showAddLang"/>
+                </Grid>
                 <RelativePanel>
                     <TextBlock x:Name="integerx" Text="integer" CanDrag="True" DragStarting="dragStart"
                                Tapped="TextTapped" Padding="8" ToolTipService.ToolTip="integer"/>

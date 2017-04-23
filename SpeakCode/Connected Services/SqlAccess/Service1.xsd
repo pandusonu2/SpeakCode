@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/SQLAccess.Model" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/SQLAccess.Model" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="ArrayOfUser">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="User" nillable="true" type="tns:User" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfUser" nillable="true" type="tns:ArrayOfUser" />
+  <xs:complexType name="User">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="acc" type="xs:int" />
+      <xs:element minOccurs="0" name="password" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ques" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="sol" type="xs:int" />
+      <xs:element minOccurs="0" name="user" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="User" nillable="true" type="tns:User" />
+  <xs:complexType name="UserLang">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="breaker" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="continuex" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ifelse" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="input" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="integer" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="lang" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="looper" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="printer" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="strings" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="user" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="UserLang" nillable="true" type="tns:UserLang" />
+  <xs:complexType name="ArrayOfUserLang">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="UserLang" nillable="true" type="tns:UserLang" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfUserLang" nillable="true" type="tns:ArrayOfUserLang" />
+</xs:schema>
